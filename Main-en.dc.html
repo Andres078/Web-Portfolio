@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Andrés Mendoza — Portfolio</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@300;400;500&amp;family=IBM+Plex+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0B0D0C}
+a{color:#D9925A;text-decoration:none}a:hover{color:#F0B07C}
+*{box-sizing:border-box}
+::selection{background:#D9925A;color:#0B0D0C}
+
+.pkg{fill:#151817;stroke:#3A403D;stroke-width:1}
+.pins{fill:none;stroke:#7D847F;stroke-width:16;stroke-dasharray:8 12}
+.die{fill:#1C2120;stroke:#D9925A;stroke-width:1}
+.dieg{fill:none;stroke:#2E3533;stroke-width:1}
+.bond{fill:none;stroke:#8E6A4C;stroke-width:0.8}
+.tr{fill:none;stroke:#5B4433;stroke-width:1.5}
+.pl{fill:none;stroke:#5FD0DC;stroke-width:2;stroke-dasharray:14 400;stroke-dashoffset:414;stroke-linecap:round}
+.pad{fill:#0B0D0C;stroke:#D9925A;stroke-width:1.5}
+.lbl{fill:#C9CDC9;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em}
+.lbl-r{text-anchor:end}
+.pkgt{fill:#E8E6E1;font-family:'Chakra Petch',sans-serif;font-size:30px;font-weight:300;letter-spacing:0.18em;text-anchor:middle}
+.pkgs{fill:#8C938F;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;text-anchor:middle}
+.pin1{fill:#D9925A}
+.led{fill:#5FD0DC}
+
+@keyframes pulse{to{stroke-dashoffset:0}}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes typing{from{width:0}to{width:26ch}}
+@keyframes led{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes draw{from{stroke-dashoffset:600}to{stroke-dashoffset:0}}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes scan{from{transform:translateY(-100%)}to{transform:translateY(100%)}}
+.anim .pl{animation:pulse 3.2s linear infinite}
+.anim .tr{stroke-dasharray:600;animation:draw 1.6s ease-out both}
+.anim .led{animation:led 1.4s ease-in-out infinite}
+.caret{display:inline-block;width:9px;height:1.1em;background:#5FD0DC;vertical-align:-3px;margin-left:4px}
+.anim .caret{animation:blink 1s step-end infinite}
+.typed{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;width:26ch}
+.anim .typed{animation:typing 1.8s steps(26) .3s both}
+.anim .hero-in{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+@supports (animation-timeline: view()){
+  .anim .reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 40%}
+}
+.scanline{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,transparent 0,rgba(95,208,220,.06) 50%,transparent 100%);height:40%}
+.anim .scanline{animation:scan 6s linear infinite}
+
+.navlink{color:#AEB4B0;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.08em;padding:12px 4px;min-height:44px;display:inline-flex;align-items:center}
+.navlink:hover{color:#5FD0DC}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #D9925A;transition:background .2s,color .2s}
+.btn-p{background:#D9925A;color:#0B0D0C}
+.btn-p:hover{background:#F0B07C;color:#0B0D0C}
+.btn-g{color:#D9925A}
+.btn-g:hover{background:rgba(217,146,90,.12);color:#F0B07C}
+.card{transition:border-color .25s, transform .25s}
+.card:hover{border-color:#D9925A !important}
+.toggle{background:none;border:1px solid #3A403D;color:#E8E6E1;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;min-height:44px;padding:0 16px;cursor:pointer;display:inline-flex;align-items:center;gap:10px}
+.toggle:hover{border-color:#5FD0DC;color:#5FD0DC}
+.chipsk{border:1px solid #2C3230;padding:6px 10px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#D5D8D4;display:inline-flex;gap:8px;align-items:center;background:#111413}
+.lvl-a{color:#5FD0DC;font-size:10px;letter-spacing:.12em}
+.lvl-i{color:#8C938F;font-size:10px;letter-spacing:.12em}
+</style>
+</helmet>
+
+<div class="{{animClass}}" style="background-color: #0B0D0C; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 32px 32px; color: #E8E6E1; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-weight: 300; min-height: 100vh">
+
+<!-- ================= NAV ================= -->
+<header style="position: sticky; top: 0; z-index: 10; background: rgba(11,13,12,0.86); backdrop-filter: blur(8px); border-bottom: 1px solid #1F2422">
+  <nav aria-label="Main" style="max-width: 1240px; margin: 0 auto; padding: 0 32px; min-height: 68px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+    <a href="#home" style="display: flex; align-items: center; gap: 12px; color: #E8E6E1">
+      <span style="width: 30px; height: 30px; border: 1px solid #D9925A; display: grid; place-items: center; font-family: 'Chakra Petch', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: .05em">AM</span>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .14em">MENDOZA<span style="color: #D9925A">_</span>FLORES</span>
+    </a>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
+      <a class="navlink" href="#profile">01 Profile</a>
+      <a class="navlink" href="#projects">02 Projects</a>
+      <a class="navlink" href="#experience">03 Experience</a>
+      <a class="navlink" href="#skills">04 Skills</a>
+      <a class="navlink" href="#contact">05 Contact</a>
+      <div style="display: flex; border: 1px solid #2C3230; font-family: 'JetBrains Mono', monospace; font-size: 12px">
+        <a href="Main.dc.html" lang="es" aria-label="Versión en español" style="color: #AEB4B0; min-height: 44px; min-width: 44px; display: grid; place-items: center">ES</a>
+        <span aria-current="true" style="background: #D9925A; color: #0B0D0C; min-height: 44px; min-width: 44px; display: grid; place-items: center">EN</span>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<section id="home" style="position: relative; overflow: hidden; border-bottom: 1px solid #1F2422">
+  <div class="scanline"></div>
+  <div style="max-width: 1240px; margin: 0 auto; padding: 96px 32px 104px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(480px, 100%), 1fr)); gap: 56px; align-items: center; min-height: 720px">
+    <div class="hero-in" style="display: flex; flex-direction: column; gap: 28px">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #8C938F; display: flex; align-items: center">
+        <span style="color: #D9925A; margin-right: 10px">&gt;</span><span class="typed">init andres_mendoza --boot</span><span class="caret"></span>
+      </div>
+      <h1 style="margin: 0; font-family: 'Chakra Petch', sans-serif; font-weight: 300; font-size: clamp(44px, 6vw, 84px); line-height: 0.98; letter-spacing: -0.01em; text-wrap: balance">Andrés<br>Mendoza <span style="color: #D9925A; font-weight: 400">Flores</span></h1>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px 18px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: #C9CDC9">
+        <span>Electrical Engineer</span><span style="color: #3A403D">/</span><span>Hardware Design</span><span style="color: #3A403D">/</span><span>Microelectronics</span>
+      </div>
+      <p style="margin: 0; max-width: 520px; font-size: 18px; line-height: 1.65; color: #B9BEBA; text-wrap: pretty">I design circuits from the transistor up to the board: digital filters and amplifiers in 180 nm CMOS, PCBs and embedded systems. I currently research ultrasound for monitoring flows in mining operations.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 14px; padding-top: 6px">
+        <a class="btn btn-p" href="#projects">View projects <span aria-hidden="true">→</span></a>
+        <a class="btn btn-g" href="https://www.linkedin.com/in/andres-mendoza-flores/">LinkedIn <span aria-hidden="true">↗</span></a>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 28px; padding-top: 18px; border-top: 1px solid #1F2422; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8C938F; letter-spacing: .08em">
+        <span><span style="color: #5FD0DC">●</span> Pontificia Universidad Católica de Chile</span>
+        <span>Master's in progress · 2026</span>
+      </div>
+    </div>
+
+    <div class="hero-in" style="display: flex; justify-content: center; animation-delay: .2s">
+      <svg viewBox="0 0 560 560" role="img" aria-label="Illustration of a chip with traces leading to areas of work" style="width: 100%; max-width: 540px; height: auto; overflow: visible">
+        <path class="tr" d="M230 154 V112 L190 72 H70"></path>
+        <path class="tr" d="M330 154 V104 L370 64 H490"></path>
+        <path class="tr" d="M250 406 V450 L210 490 H70"></path>
+        <path class="tr" d="M350 406 V456 L390 496 H490"></path>
+        <path class="tr" d="M154 290 H104 L64 330 V400"></path>
+        <path class="tr" d="M406 250 H456 L496 210 V150"></path>
+        <path class="pl" d="M230 154 V112 L190 72 H70"></path>
+        <path class="pl" d="M330 154 V104 L370 64 H490" style="animation-delay: .8s"></path>
+        <path class="pl" d="M250 406 V450 L210 490 H70" style="animation-delay: 1.6s"></path>
+        <path class="pl" d="M350 406 V456 L390 496 H490" style="animation-delay: 2.4s"></path>
+        <path class="pl" d="M154 290 H104 L64 330 V400" style="animation-delay: 1.2s"></path>
+        <path class="pl" d="M406 250 H456 L496 210 V150" style="animation-delay: 2s"></path>
+        <circle class="pad" cx="70" cy="72" r="5"></circle>
+        <circle class="pad" cx="490" cy="64" r="5"></circle>
+        <circle class="pad" cx="70" cy="490" r="5"></circle>
+        <circle class="pad" cx="490" cy="496" r="5"></circle>
+        <circle class="pad" cx="64" cy="400" r="5"></circle>
+        <circle class="pad" cx="496" cy="150" r="5"></circle>
+        <text class="lbl" x="70" y="56">ANALOG IC</text>
+        <text class="lbl lbl-r" x="490" y="48">DIGITAL / FPGA</text>
+        <text class="lbl" x="70" y="518">PCB DESIGN</text>
+        <text class="lbl lbl-r" x="490" y="524">EMBEDDED</text>
+        <text class="lbl" x="44" y="428">ULTRASOUND</text>
+        <text class="lbl lbl-r" x="516" y="134">RF</text>
+        <path class="pins" d="M186 162 H376"></path>
+        <path class="pins" d="M186 398 H376"></path>
+        <path class="pins" d="M162 186 V376"></path>
+        <path class="pins" d="M398 186 V376"></path>
+        <rect class="pkg" x="170" y="170" width="220" height="220"></rect>
+        <circle class="pin1" cx="188" cy="188" r="4"></circle>
+        <rect class="die" x="222" y="208" width="116" height="116"></rect>
+        <path class="dieg" d="M222 237 H338 M222 266 H338 M222 295 H338 M251 208 V324 M280 208 V324 M309 208 V324"></path>
+        <path class="bond" d="M222 222 L192 198 M338 222 L368 198 M222 310 L192 338 M338 310 L368 338 M280 208 L280 182 M280 324 L280 352"></path>
+        <rect class="led" x="314" y="214" width="18" height="6"></rect>
+        <text class="pkgt" x="280" y="364">AMF-01</text>
+        <text class="pkgs" x="280" y="378">GF180 · 2026 · PUC</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 01 PROFILE ================= -->
+<section id="profile" style="max-width: 1240px; margin: 0 auto; padding: 120px 32px">
+  <div class="reveal" style="display: flex; align-items: center; gap: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .14em; color: #8C938F">
+    <span style="color: #D9925A">01</span><span>// PROFILE</span><span style="flex: 1; height: 1px; background: #1F2422"></span><span>REV 1.0</span>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr)); gap: 64px; margin-top: 48px">
+    <div class="reveal" style="display: flex; flex-direction: column; gap: 24px">
+      <h2 style="margin: 0; font-family: 'Chakra Petch', sans-serif; font-weight: 300; font-size: clamp(34px, 4vw, 52px); line-height: 1.08; text-wrap: balance">From silicon to board, grounded in research.</h2>
+      <p style="margin: 0; font-size: 17px; line-height: 1.7; color: #B9BEBA; text-wrap: pretty">Electrical engineer with research experience in image and signal processing, and in circuit design and testing. Passionate about hardware development and used to working in multidisciplinary teams. Interested in ultrasound, radio frequency and microelectronics.</p>
+      <p style="margin: 0; font-size: 17px; line-height: 1.7; color: #B9BEBA; text-wrap: pretty">Board member at <span style="color: #E8E6E1">Chip UC</span>, where we run microelectronics workshops together with other universities.</p>
+    </div>
+
+    <div class="reveal" style="border: 1px solid #2C3230; background: #111413">
+      <div style="display: flex; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid #2C3230; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; color: #8C938F">
+        <span>EDUCATION</span><span>TABLE 1</span>
+      </div>
+      <div style="display: grid; grid-template-columns: 120px 1fr; border-bottom: 1px solid #1F2422">
+        <div style="padding: 22px 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #D9925A">2026 —<br>present</div>
+        <div style="padding: 22px 20px; border-left: 1px solid #1F2422; display: flex; flex-direction: column; gap: 6px">
+          <span style="font-family: 'Chakra Petch', sans-serif; font-size: 20px; font-weight: 400">Master's in Engineering Sciences</span>
+          <span style="font-size: 15px; color: #9BA39F; line-height: 1.55">Thesis: ultrasound development for monitoring pipe flows in mining operations.</span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 120px 1fr">
+        <div style="padding: 22px 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #D9925A">2021 —<br>2026</div>
+        <div style="padding: 22px 20px; border-left: 1px solid #1F2422; display: flex; flex-direction: column; gap: 6px">
+          <span style="font-family: 'Chakra Petch', sans-serif; font-size: 20px; font-weight: 400">Electrical Engineering</span>
+          <span style="font-size: 15px; color: #9BA39F; line-height: 1.55">Pontificia Universidad Católica de Chile</span>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 20px; border-top: 1px solid #2C3230; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8C938F">
+        <span>LANGUAGES:</span><span style="color: #E8E6E1">Spanish (native)</span><span>·</span><span style="color: #E8E6E1">English (advanced)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 PROJECTS ================= -->
+<section id="projects" style="border-top: 1px solid #1F2422; border-bottom: 1px solid #1F2422; background: rgba(17,20,19,0.6)">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 120px 32px">
+    <div class="reveal" style="display: flex; align-items: center; gap: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .14em; color: #8C938F">
+      <span style="color: #D9925A">02</span><span>// PROJECTS</span><span style="flex: 1; height: 1px; background: #1F2422"></span><span>5 RECORDS</span>
+    </div>
+    <h2 class="reveal" style="margin: 48px 0 56px; font-family: 'Chakra Petch', sans-serif; font-weight: 300; font-size: clamp(34px, 4vw, 52px); line-height: 1.08">Selected projects</h2>
+
+    <!-- Project: FIR -->
+    <article class="card reveal" style="border: 1px solid #2C3230; background: #0E1110; margin-bottom: 24px">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 0">
+        <div style="padding: 36px; display: flex; flex-direction: column; gap: 18px; border-right: 1px solid #1F2422">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .1em">
+            <span style="color: #D9925A">P-01</span><span style="color: #8C938F">DIGITAL IC · TEAM PROJECT</span>
+          </div>
+          <h3 style="margin: 0; font-family: 'Chakra Petch', sans-serif; font-weight: 400; font-size: 30px; line-height: 1.15">Transistor-level 1:4 FIR interpolation filter</h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.65; color: #B9BEBA; text-wrap: pretty">A 6-bit interpolation filter built transistor by transistor, from logic gates up to the full system. It uses a polyphase architecture for speed, with a balanced pipeline and an optimized critical path.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <span class="chipsk">GF180MCU PDK</span><span class="chipsk">180 nm CMOS</span><span class="chipsk">LTspice</span>
+          </div>
+          <div style="padding-top: 4px">
+            <button class="toggle" onClick="{{toggleFir}}" aria-expanded="{{open.fir}}"><span>{{label.fir}}</span><span aria-hidden="true" style="color: #5FD0DC">{{sign.fir}}</span></button>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr))">
+          <div style="padding: 28px; border-bottom: 1px solid #1F2422; border-right: 1px solid #1F2422">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; color: #8C938F">F MAX</div>
+            <div style="font-family: 'Chakra Petch', sans-serif; font-size: 40px; font-weight: 300; color: #5FD0DC; margin-top: 8px">427<span style="font-size: 18px; color: #9BA39F"> MHz</span></div>
+          </div>
+          <div style="padding: 28px; border-bottom: 1px solid #1F2422">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; color: #8C938F">POWER @ F MAX</div>
+            <div style="font-family: 'Chakra Petch', sans-serif; font-size: 40px; font-weight: 300; margin-top: 8px">7.8<span style="font-size: 18px; color: #9BA39F"> mW</span></div>
+          </div>
+          <div style="padding: 28px; border-right: 1px solid #1F2422">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; color: #8C938F">LOGIC GATES</div>
+            <div style="font-family: 'Chakra Petch', sans-serif; font-size: 40px; font-weight: 300; margin-top: 8px">175</div>
+          </div>
+          <div style="padding: 28px">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; color: #8C938F">FLIP-FLOPS</div>
+            <div style="font-family: 'Chakra Petch', sans-serif; font-size: 40px; font-weight: 300; margin-top: 8px">26</div>
+          </div>
+        </div>
+      </div>
+
+      <sc-if value="{{open.fir}}" hint-placeholder-val="{{ true }}">
+        <div style="border-top: 1px solid #2C3230; padding: 36px; display: flex; flex-direction: column; gap: 32px; background: #0B0D0C">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .14em; color: #8C938F">FIG. 1 — HARDWARE ARCHITECTURE</div>
+          <div style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 0">
+            <div style="flex: 1 1 160px; border: 1px solid #3A403D; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #D9925A">CTRL</span>
+              <span style="font-family: 'Chakra Petch', sans-serif; font-size: 17px">2-bit counter</span>
+              <span style="font-size: 13px; color: #9BA39F; line-height: 1.5">Sequencer and frequency divider</span>
+            </div>
+            <div aria-hidden="true" style="width: 36px; display: flex; align-items: center; justify-content: center; color: #5FD0DC; font-family: 'JetBrains Mono', monospace">→</div>
+            <div style="flex: 1 1 160px; border: 1px solid #3A403D; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #D9925A">DATA</span>
+              <span style="font-family: 'Chakra Petch', sans-serif; font-size: 17px">MUX 4:1 · 2:1</span>
+              <span style="font-size: 13px; color: #9BA39F; line-height: 1.5">Cascaded transmission gates</span>
+            </div>
+            <div aria-hidden="true" style="width: 36px; display: flex; align-items: center; justify-content: center; color: #5FD0DC; font-family: 'JetBrains Mono', monospace">→</div>
+            <div style="flex: 1 1 160px; border: 1px solid #3A403D; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #D9925A">ALU</span>
+              <span style="font-family: 'Chakra Petch', sans-serif; font-size: 17px">8-bit RCA</span>
+              <span style="font-size: 13px; color: #9BA39F; line-height: 1.5">Mirror adders; ×2 and ×4 by shifting</span>
+            </div>
+            <div aria-hidden="true" style="width: 36px; display: flex; align-items: center; justify-content: center; color: #5FD0DC; font-family: 'JetBrains Mono', monospace">→</div>
+            <div style="flex: 1 1 160px; border: 1px solid #D9925A; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #D9925A">REG</span>
+              <span style="font-family: 'Chakra Petch', sans-serif; font-size: 17px">6-bit registers</span>
+              <span style="font-size: 13px; color: #9BA39F; line-height: 1.5">1-cycle pipeline latency</span>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 32px">
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .1em; color: #5FD0DC">// DESIGN CHOICES</span>
+              <p style="margin: 0; font-size: 15px; line-height: 1.65; color: #B9BEBA">The zero-stuffed samples are never stored or computed, which saves flip-flops and lets operations run in parallel. Multiplications are resolved in the routing, with no hardware multipliers.</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .1em; color: #5FD0DC">// VERIFICATION</span>
+              <p style="margin: 0; font-size: 15px; line-height: 1.65; color: #B9BEBA">Parameterized testbenches with digital bus stimuli and impulse response. Stable at 427.35 MHz; fails at 429.18 MHz. Clock and select lines need strong buffers.</p>
+            </div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8C938F">
+            <span>Team: José Agustín Milling, Andrés Mendoza</span><span>·</span><span>Course IEE3753</span>
+          </div>
+        </div>
+      </sc-if>
+    </article>
+
+    <!-- Project: OTA -->
+    <article class="card reveal" style="border: 1px solid #2C3230; background: #0E1110; margin-bottom: 24px">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 0">
+        <div style="padding: 36px; display: flex; flex-direction: column; gap: 18px; border-right: 1px solid #1F2422">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .1em">
+            <span style="color: #D9925A">P-02</span><span style="color: #8C938F">ANALOG IC · TEAM PROJECT</span>
+          </div>
+          <h3 style="margin: 0; font-family: 'Chakra Petch', sans-serif; font-weight: 400; font-size: 30px; line-height: 1.15">Differential folded-cascode OTA</h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.65; color: #B9BEBA; text-wrap: pretty">An operational transconductance amplifier in a folded-cascode topology, with a common-mode feedback (CMFB) loop that stabilizes the circuit. Sized with the gm/ID method and fully simulated in LTspice, it meets the required specifications.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <span class="chipsk">GF180MCU PDK</span><span class="chipsk">gm/ID</span><span class="chipsk">CMFB</span><span class="chipsk">LTspice</span>
+          </div>
+          <div style="padding-top: 4px">
+            <button class="toggle" onClick="{{toggleOta}}" aria-expanded="{{open.ota}}"><span>{{label.ota}}</span><span aria-hidden="true" style="color: #5FD0DC">{{sign.ota}}</span></button>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr))">
+          <div style="padding: 28px; border-bottom: 1px solid #1F2422; border-right: 1px solid #1F2422">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; color: #8C938F">OPEN-LOOP GAIN</div>
+            <div style="font-family: 'Chakra Petch', sans-serif; font-size: 40px; font-weight: 300; color: #5FD0DC; margin-top: 8px">65.7<span style="font-size: 18px; color: #9BA39F"> dB</span></div>
+          </div>
+          <div style="padding: 28px; border-bottom: 1px solid #1F2422">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; color: #8C938F">GBW</div>
+            <div style="font-family: 'Chakra Petch', sans-serif; font-size: 40px; font-weight: 300; margin-top: 8px">21.07<span style="font-size: 18px; color: #9BA39F"> MHz</span></div>
+          </div>
+          <div style="padding: 28px; border-right: 1px solid #1F2422">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; color: #8C938F">DC POWER</div>
+            <div style="font-family: 'Chakra Petch', sans-serif; font-size: 40px; font-weight: 300; margin-top: 8px">1.63<span style="font-size: 18px; color: #9BA39F"> mW</span></div>
+          </div>
+          <div style="padding: 28px">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; color: #8C938F">PHASE MARGIN</div>
+            <div style="font-family: 'Chakra Petch', sans-serif; font-size: 40px; font-weight: 300; margin-top: 8px">68<span style="font-size: 18px; color: #9BA39F">°</span></div>
+          </div>
+        </div>
+      </div>
+
+      <sc-if value="{{open.ota}}" hint-placeholder-val="{{ false }}">
+        <div style="border-top: 1px solid #2C3230; padding: 36px; display: flex; flex-direction: column; gap: 24px; background: #0B0D0C">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .14em; color: #8C938F">TABLE 2 — SPECIFICATIONS</div>
+          <div style="overflow-x: auto; border: 1px solid #2C3230">
+            <table style="width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px">
+              <thead>
+                <tr style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .12em; color: #8C938F; text-align: left">
+                  <th style="padding: 12px 16px; border-bottom: 1px solid #2C3230; font-weight: 400">PARAMETER</th>
+                  <th style="padding: 12px 16px; border-bottom: 1px solid #2C3230; font-weight: 400">REQUIRED</th>
+                  <th style="padding: 12px 16px; border-bottom: 1px solid #2C3230; font-weight: 400">ACHIEVED</th>
+                  <th style="padding: 12px 16px; border-bottom: 1px solid #2C3230; font-weight: 400">STATUS</th>
+                </tr>
+              </thead>
+              <tbody style="color: #D5D8D4">
+                <tr><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422">Open-loop gain</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; font-family: 'JetBrains Mono', monospace">≥ 60 dB</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; font-family: 'JetBrains Mono', monospace">65.71 dB</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; color: #5FD0DC; font-family: 'JetBrains Mono', monospace">PASS</td></tr>
+                <tr><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422">Gain-bandwidth product</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; font-family: 'JetBrains Mono', monospace">20 MHz</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; font-family: 'JetBrains Mono', monospace">21.07 MHz</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; color: #5FD0DC; font-family: 'JetBrains Mono', monospace">PASS</td></tr>
+                <tr><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422">DC CMRR</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; font-family: 'JetBrains Mono', monospace">60 dB</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; font-family: 'JetBrains Mono', monospace">147.35 dB</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; color: #5FD0DC; font-family: 'JetBrains Mono', monospace">PASS</td></tr>
+                <tr><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422">Phase margin (β = 1)</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; font-family: 'JetBrains Mono', monospace">&gt; 60°</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; font-family: 'JetBrains Mono', monospace">68°</td><td style="padding: 12px 16px; border-bottom: 1px solid #1F2422; color: #5FD0DC; font-family: 'JetBrains Mono', monospace">PASS</td></tr>
+                <tr><td style="padding: 12px 16px">DC power dissipation</td><td style="padding: 12px 16px; font-family: 'JetBrains Mono', monospace">Minimize</td><td style="padding: 12px 16px; font-family: 'JetBrains Mono', monospace">1.63 mW</td><td style="padding: 12px 16px; color: #5FD0DC; font-family: 'JetBrains Mono', monospace">PASS</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8C938F">
+            <span>Team: Francisco Leay, Andrés Mendoza, Diego Stevenson</span><span>·</span><span>Course IEE3433</span>
+          </div>
+        </div>
+      </sc-if>
+    </article>
+
+    <!-- Smaller projects -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 24px">
+      <article class="card reveal" style="border: 1px solid #2C3230; background: #0E1110; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .1em"><span style="color: #D9925A">P-03</span><span style="color: #8C938F">ASIC</span></div>
+        <h3 style="margin: 0; font-family: 'Chakra Petch', sans-serif; font-weight: 400; font-size: 22px">LCD controller on silicon · Tiny Tapeout</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #B9BEBA">A digital IC written in Verilog and submitted for fabrication through Tiny Tapeout. It drives a fixed message to a 16×2 LCD using the 4-bit parallel mode, sending each byte as two nibbles. Built in a single day with the Tiny Tapeout flow and open-source tools.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto"><span class="chipsk">Verilog</span><span class="chipsk">Tiny Tapeout</span><span class="chipsk">LCD 16×2</span><span class="chipsk" style="border-color: #5FD0DC; color: #5FD0DC">1 DAY</span></div>
+      </article>
+      <article class="card reveal" style="border: 1px solid #2C3230; background: #0E1110; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .1em"><span style="color: #D9925A">P-04</span><span style="color: #8C938F">EMBEDDED · TEAM</span></div>
+        <h3 style="margin: 0; font-family: 'Chakra Petch', sans-serif; font-weight: 400; font-size: 22px">Autonomous exploration vehicle</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #B9BEBA">Capstone project: a differential-drive vehicle built from scratch. A single ESP32 runs the control loop (PID or LQR) and obstacle avoidance from its sensors. It is driven from a Firebase web page that also serves as the vehicle's dashboard.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto"><span class="chipsk">ESP32</span><span class="chipsk">PID / LQR</span><span class="chipsk">Firebase</span></div>
+      </article>
+      <article class="card reveal" style="border: 1px solid #2C3230; background: #0E1110; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .1em"><span style="color: #D9925A">P-05</span><span style="color: #8C938F">RF · SENSING</span></div>
+        <h3 style="margin: 0; font-family: 'Chakra Petch', sans-serif; font-weight: 400; font-size: 22px">Motion sensor using WiFi CSI</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #B9BEBA">Motion detection from WiFi channel state information (CSI). An ESP32 XIAO with external antennas captures CSI from a network whose router keeps a constant stream of traffic, and a Raspberry Pi processes the signals.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto"><span class="chipsk">WiFi CSI</span><span class="chipsk">ESP32 XIAO</span><span class="chipsk">Raspberry Pi</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 EXPERIENCE ================= -->
+<section id="experience" style="max-width: 1240px; margin: 0 auto; padding: 120px 32px">
+  <div class="reveal" style="display: flex; align-items: center; gap: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .14em; color: #8C938F">
+    <span style="color: #D9925A">03</span><span>// EXPERIENCE</span><span style="flex: 1; height: 1px; background: #1F2422"></span><span>TIME BUS</span>
+  </div>
+  <h2 class="reveal" style="margin: 48px 0 56px; font-family: 'Chakra Petch', sans-serif; font-weight: 300; font-size: clamp(34px, 4vw, 52px); line-height: 1.08">Industry, research and teaching</h2>
+
+  <div style="position: relative; display: flex; flex-direction: column; gap: 0; border-left: 1px solid #5B4433; margin-left: 8px">
+    <div class="reveal" style="position: relative; padding: 0 0 48px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 12px 40px">
+      <span aria-hidden="true" style="position: absolute; left: -7px; top: 6px; width: 13px; height: 13px; background: #D9925A"></span>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5FD0DC; letter-spacing: .08em">MAR 2025 — PRESENT</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-size: 24px">Aeonix</span>
+        <span style="font-size: 15px; color: #9BA39F">Hardware Engineer</span>
+      </div>
+      <ul style="margin: 0; padding-left: 18px; font-size: 15.5px; line-height: 1.65; color: #B9BEBA; display: flex; flex-direction: column; gap: 8px">
+        <li>Designed and built a three-phase to single-phase electrical panel for a laboratory, including protection selection.</li>
+        <li>Control panel based on a Siemens LOGO! PLC and ABB ACS150 drives, with FBD logic and a monitoring web page.</li>
+        <li>Selected and integrated Doppler ultrasonic hardware (Texas Instruments and Analog Devices modules) for flow measurement in slurry pipelines.</li>
+      </ul>
+    </div>
+
+    <div class="reveal" style="position: relative; padding: 0 0 48px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 12px 40px">
+      <span aria-hidden="true" style="position: absolute; left: -7px; top: 6px; width: 13px; height: 13px; border: 1px solid #D9925A; background: #0B0D0C"></span>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5FD0DC; letter-spacing: .08em">MAR 2025 — AUG 2026</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-size: 24px">Erosion LAB</span>
+        <span style="font-size: 15px; color: #9BA39F">Researcher</span>
+      </div>
+      <ul style="margin: 0; padding-left: 18px; font-size: 15.5px; line-height: 1.65; color: #B9BEBA; display: flex; flex-direction: column; gap: 8px">
+        <li>OpenCV and scikit algorithm to remove a motion artifact from ultrasound images of a turbulent particle flow.</li>
+        <li>Adapting medical ultrasound equipment for industrial applications.</li>
+      </ul>
+    </div>
+
+    <div class="reveal" style="position: relative; padding: 0 0 48px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 12px 40px">
+      <span aria-hidden="true" style="position: absolute; left: -7px; top: 6px; width: 13px; height: 13px; border: 1px solid #D9925A; background: #0B0D0C"></span>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5FD0DC; letter-spacing: .08em">2024 — 2025</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-size: 24px">Undergraduate research (IPRE)</span>
+        <span style="font-size: 15px; color: #9BA39F">IBM UC · DIMM UC · DIE UC</span>
+      </div>
+      <ul style="margin: 0; padding-left: 18px; font-size: 15.5px; line-height: 1.65; color: #B9BEBA; display: flex; flex-direction: column; gap: 8px">
+        <li>Illumination circuit for a fluorescence microscope, with its PCB designed in EasyEDA.</li>
+        <li>Image and signal processing algorithms for ultrasound of turbulent flow.</li>
+        <li>Synthetic ultrasound image generator, random or from simulation data.</li>
+      </ul>
+    </div>
+
+    <div class="reveal" style="position: relative; padding: 0 0 8px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 12px 40px">
+      <span aria-hidden="true" style="position: absolute; left: -7px; top: 6px; width: 13px; height: 13px; border: 1px solid #5FD0DC; background: #0B0D0C"></span>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5FD0DC; letter-spacing: .08em">MAR 2025 — PRESENT</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-size: 24px">Teaching and community</span>
+        <span style="font-size: 15px; color: #9BA39F">DIE UC · Chip UC</span>
+      </div>
+      <ul style="margin: 0; padding-left: 18px; font-size: 15.5px; line-height: 1.65; color: #B9BEBA; display: flex; flex-direction: column; gap: 8px">
+        <li>Teaching assistant in the analog and digital electronics lab (4 semesters): debugging circuits, FPGA and microcontroller code.</li>
+        <li>Teaching assistant for the Capstone course (automation) and Digital Systems.</li>
+        <li>Board member at Chip UC: microelectronics workshops with other universities.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 SKILLS ================= -->
+<section id="skills" style="border-top: 1px solid #1F2422; background: rgba(17,20,19,0.6)">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 120px 32px">
+    <div class="reveal" style="display: flex; align-items: center; gap: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .14em; color: #8C938F">
+      <span style="color: #D9925A">04</span><span>// SKILLS</span><span style="flex: 1; height: 1px; background: #1F2422"></span><span>REGISTER MAP</span>
+    </div>
+    <h2 class="reveal" style="margin: 48px 0 56px; font-family: 'Chakra Petch', sans-serif; font-weight: 300; font-size: clamp(34px, 4vw, 52px); line-height: 1.08">Tools</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 1px; background: #2C3230; border: 1px solid #2C3230">
+      <div class="reveal" style="background: #0E1110; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em"><span style="color: #E8E6E1">EDA / SIMULATION</span><span style="color: #8C938F">0x00</span></div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <span class="chipsk">LTspice <span class="lvl-a">ADV</span></span>
+          <span class="chipsk">KiCad <span class="lvl-i">INT</span></span>
+          <span class="chipsk">Altium Designer <span class="lvl-i">INT</span></span>
+          <span class="chipsk">Vivado <span class="lvl-i">INT</span></span>
+          <span class="chipsk">MATLAB <span class="lvl-i">INT</span></span>
+          <span class="chipsk">4nec2 <span class="lvl-i">INT</span></span>
+        </div>
+      </div>
+      <div class="reveal" style="background: #0E1110; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em"><span style="color: #E8E6E1">LANGUAGES</span><span style="color: #8C938F">0x01</span></div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <span class="chipsk">Python <span class="lvl-a">ADV</span></span>
+          <span class="chipsk">C / C++ <span class="lvl-a">ADV</span></span>
+          <span class="chipsk">Verilog <span class="lvl-i">INT</span></span>
+          <span class="chipsk">VHDL <span class="lvl-i">INT</span></span>
+          <span class="chipsk">JavaScript <span class="lvl-i">INT</span></span>
+        </div>
+      </div>
+      <div class="reveal" style="background: #0E1110; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em"><span style="color: #E8E6E1">PLATFORMS</span><span style="color: #8C938F">0x02</span></div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <span class="chipsk">STM32 · CubeIDE</span>
+          <span class="chipsk">ESP32 · PlatformIO</span>
+          <span class="chipsk">Arduino</span>
+          <span class="chipsk">Raspberry Pi</span>
+          <span class="chipsk">Jetson Nano</span>
+          <span class="chipsk">Siemens LOGO!</span>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 24px; margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8C938F">
+      <span><span class="lvl-a">ADV</span> advanced</span><span><span class="lvl-i">INT</span> intermediate</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 05 CONTACT ================= -->
+<section id="contact" style="border-top: 1px solid #1F2422">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 120px 32px 80px">
+    <div class="reveal" style="display: flex; align-items: center; gap: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .14em; color: #8C938F">
+      <span style="color: #D9925A">05</span><span>// CONTACT</span><span style="flex: 1; height: 1px; background: #1F2422"></span><span>I/O</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: 56px; margin-top: 48px; align-items: end">
+      <h2 class="reveal" style="margin: 0; font-family: 'Chakra Petch', sans-serif; font-weight: 300; font-size: clamp(40px, 5.5vw, 76px); line-height: 1">Let's talk<br><span style="color: #D9925A">hardware</span>.</h2>
+      <div class="reveal" style="display: flex; flex-direction: column; border-top: 1px solid #2C3230">
+        <p style="margin: 0; padding: 24px 0; font-size: 17px; line-height: 1.65; color: #B9BEBA">Open to conversations about integrated circuit design, embedded hardware and instrumentation.</p>
+        <a href="https://www.linkedin.com/in/andres-mendoza-flores/" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 24px 0; border-top: 1px solid #2C3230; border-bottom: 1px solid #2C3230; min-height: 44px; color: #E8E6E1">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; color: #8C938F; width: 90px">LINKEDIN</span><span style="flex: 1; font-family: 'Chakra Petch', sans-serif; font-size: 24px; font-weight: 300">Andrés Mendoza Flores</span><span aria-hidden="true" style="color: #D9925A; font-size: 22px">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <footer style="border-top: 1px solid #1F2422">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8C938F; letter-spacing: .08em">
+      <span>© 2026 Andrés Mendoza Flores</span>
+      <span>DS-AMF-01 · REV 1.0 <span style="color: #5FD0DC">●</span> ONLINE</span>
+    </div>
+  </footer>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"animations":{"editor":"boolean","default":true,"section":"Motion"},"$preview":{"width":1440,"height":5600}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { fir: true, ota: false };
+  }
+  renderVals() {
+    const anim = this.props.animations ?? true;
+    const s = this.state;
+    const lab = (o) => (o ? 'HIDE DETAILS' : 'VIEW TECHNICAL DETAILS');
+    return {
+      animClass: anim ? 'anim' : '',
+      open: { fir: s.fir, ota: s.ota },
+      label: { fir: lab(s.fir), ota: lab(s.ota) },
+      sign: { fir: s.fir ? '−' : '+', ota: s.ota ? '−' : '+' },
+      toggleFir: () => this.setState({ fir: !this.state.fir }),
+      toggleOta: () => this.setState({ ota: !this.state.ota })
+    };
+  }
+}
+</script>
+</body>
+</html>
