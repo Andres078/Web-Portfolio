@@ -1,8 +1,9 @@
-# Web Portfolio
+# Web Portfolio 
 # Andres Mendoza - Microelectronics & EDA Portfolio
 
 Electrical Engineer and Master's student specializing in hardware development, IC design flows, and signal processing. Passionate about open-source Electronic Design Automation (EDA), automated workflows, and chip architecture.
 
+## See the portfolio here https://andres078.github.io/
 ## Technical Arsenal
 * **Open-Source EDA:** xschem, ngspice, KLayout, KiCad, OSSICtools.
 * **PDKs:** sky130, GF180MCU.
